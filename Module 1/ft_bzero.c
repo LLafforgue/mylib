@@ -1,22 +1,10 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ft_bzero.c                                         :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: llafforg <llafforg@learner.42.tech>        +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/03 16:58:49 by llafforg          #+#    #+#             */
-/*   Updated: 2025/11/03 17:01:48 by llafforg         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
+#include "libft.h"
 
-#include <string.h>
-
-void	ft_bzero(void *s, size_t n)
+void	ft_lstadd_back(t_list **lst, t_list *new)
 {
-	size_t	i;
-
-	i = 0;
-	while (i < n)
-		((char *) s)[i++] = '\0';
+	while ((*lst)->next != NULL)
+		*lst = (*lst)->next;
+	(*lst)->next = new;
+	new->next = NULL;
 }
+
