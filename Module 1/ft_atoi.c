@@ -1,38 +1,28 @@
+
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_atoi.c                                          :+:      :+:    :+:   */
+/*   ft_calloc.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: llafforg <llafforg@learner.42.tech>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/03 14:33:29 by llafforg          #+#    #+#             */
-/*   Updated: 2025/11/03 14:57:27 by llafforg         ###   ########.fr       */
+/*   Created: 2025/11/04 16:51:30 by llafforg          #+#    #+#             */
+/*   Updated: 2025/11/04 16:51:33 by llafforg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	ft_atoi(char *str)
-{
-	int	nbr;
-	int	sign;
+#include "libft.h"
 
-	nbr = 0;
-	sign = 1;
-	while (*str < '!')
-		str++;
-	if (*str == '+' || *str == '-')
-	{
-		if (*str == '-')
-			sign = -1;
-		str++;
-	}
-	if (*str >= '0' && *str <= '9')
-	{
-		while (*str >= '0' && *str <= '9')
-		{
-			nbr *= 10;
-			nbr += *str - 48;
-		}
-		return (nbr * sign);
-	}
-	return (0);
+void	*ft_calloc(size_t nmemb, size_t size)
+{
+	void	*alloc;
+	if (nmemb == __SIZE_MAX__ || size == __SIZE_MAX__)
+		return (NULL);
+	if (nmemb == 0 || size == 0)
+		return (malloc(0));
+	alloc = malloc(size * nmemb);
+	if (!alloc)
+		return (NULL);
+	ft_bzero(alloc, nmemb * size);
+	return (alloc);
 }
