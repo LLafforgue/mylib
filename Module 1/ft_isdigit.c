@@ -4,16 +4,15 @@ void	ft_lstclear(t_list **lst, void (*del)(void *))
 {
 	t_list	*current;
 
-	if (lst)
+	if (!lst || !del)
+		return;
+	while (*lst)
 	{
-		while (*lst)
-		{
-			del((*lst)->content);
-			current = *lst;
-			*lst = (*lst)->next;
-			free(current);
-		}
-		free(*lst);
-		free(lst);
+		current = *lst;
+		*lst = (*lst)->next;
+		del(current->content);  // Libère le contenu avec del.
+		free(current);          // Libère le maillon.
 	}
+	*lst = NULL;  // Optionnel : met à jour le pointeur de tête.
 }
+
