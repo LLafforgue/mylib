@@ -1,29 +1,19 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ft_isdigit.c                                       :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: llafforg <llafforg@learner.42.tech>        +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/09 14:31:55 by llafforg          #+#    #+#             */
-/*   Updated: 2025/11/03 13:50:08 by llafforg         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
+#include "libft.h"
 
-int	ft_isdigit(char *str)
+void	ft_lstclear(t_list **lst, void (*del)(void *))
 {
-	if (*str == '\0')
-		return (1);
-	else
+	t_list	*current;
+
+	if (lst)
 	{
-		if (*str >= '0' && *str <= '9')
+		while (*lst)
 		{
-			if (*(str + 1))
-				return (ft_isdigit(str + 1));
-			else
-				return (1);
+			del((*lst)->content);
+			current = *lst;
+			*lst = (*lst)->next;
+			free(current);
 		}
-		else
-			return (0);
+		free(*lst);
+		free(lst);
 	}
 }
