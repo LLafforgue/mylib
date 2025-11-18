@@ -29,11 +29,9 @@ char	*ft_join(char *buff, char *str, int i, int len)
 	while (*str)
 		*join++ = *str++;
 	while (init < len && buff[init] != '\n')
-	{
 		*join++ = buff[init++];
-		if (buff[init] == '\n')
-			*join++ = buff[init];
-	}
+	if (buff[init] == '\n')
+		*join++ = buff[init];
 	*join = '\0';
 	return (temp);
 }
@@ -60,38 +58,42 @@ char *get_next_line(int fd)
 	if (!str)
 		return (NULL);
 	*str = '\0';
-	if(i && byte_read)
+	if(byte_read && i < byte_read)
 	{
 		temp = str;
 		str = ft_join(buff, str, i, byte_read);
 		free (temp);
-		if (buff[i] == '\n')
-			i++;
 	}
-	while (!ft_chek_line(str))
+	else
+	{
+		byte_read = read(fd, buff, BUFF_SIZE);
+		temp = str;
+		str = ft_join(buff, str, i, byte_read);
+		free (temp);
+	}
+	while (byte_read > 0 && !ft_chek_line(str))
 	{
 		i = 0;
 		byte_read = read(fd, buff, BUFF_SIZE);
+		printf("[%s]->", buff);
 		temp = str;
 		str = ft_join(buff, str, i, byte_read);
 		free(temp);
 		if (byte_read == -1)
-		{
 			free(str);
-			return (NULL);
-		}
-		if (!byte_read)
-			break;
 	}
-	while (buff[i] != '\n' && i < byte_read)
+	if (buff[i] != '\n')
+		while (buff[i] != '\n' && i < byte_read)
+			i++;
+	else if (i < byte_read)
 		i++;
 	return (str);
-} 
+}
 
 int main()
 {
 	int		fd;
-	int		cnt = 5;
+	int		cnt = 10;
 	int		deb = 0;
 	char	*line;
 
@@ -99,9 +101,14 @@ int main()
 	while (deb < cnt)
 	{
 		line = get_next_line(fd);
-		// printf("main : %s-----\n", line);
+		printf("main : %s-----\n", line);
 		deb++;
 	}
 	close(fd);
 	free(line);
-} 
+}
+
+// int main()
+// {
+// 	printf("%s-\n", ft_join(" \n ", "ok", 0, 0));
+// }
