@@ -5,7 +5,7 @@
 #include <stdlib.h>
 
 #ifndef BUFF_SIZE
-# define BUFF_SIZE 1
+# define BUFF_SIZE 50
 
 #endif
 
